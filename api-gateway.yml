@@ -1,1 +1,37 @@
+server:
+  port: 0
 
+spring:
+  application:
+    name: api-gateway
+  cloud:
+     gateway:
+      routes:
+      - id: ORDER-SERVICE
+        uri: lb://ORDER-SERVICE
+        predicates:
+          - Path=/order/**
+      - id: PRODUCT-SERVICE
+        uri: lb://PRODUCT-SERVICE
+        predicates:
+          - Path=/product/**
+      - id: AUTH-SERVICE
+        uri: lb://AUTH-SERVICE
+        predicates:
+          - Path=/auth/**
+      - id: PAYMENT-SERVICE
+        uri: lb://PAYMENT-SERVICE
+        predicates:
+          - Path=/payment/**
+        
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8086/eureka
+#  config:
+#    import: configserver:http://localhost:8762
+    
